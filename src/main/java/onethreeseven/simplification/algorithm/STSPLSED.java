@@ -1,4 +1,4 @@
-package algorithm;
+package onethreeseven.simplification.algorithm;
 
 import onethreeseven.collections.Range;
 import onethreeseven.common.util.Maths;
@@ -21,6 +21,16 @@ public class STSPLSED extends AbstractSPLTrajectorySimplifier {
             throw new IllegalArgumentException("Trajectory must be of type STTrajectory to use this simplifier.");
         }
         return super.simplify(trajectory, simplificationStrength);
+    }
+
+    @Override
+    public String readableName() {
+        return "Thorough synchronised euclidean distance";
+    }
+
+    @Override
+    public String simpleName() {
+        return "stsplsed";
     }
 
     @Override

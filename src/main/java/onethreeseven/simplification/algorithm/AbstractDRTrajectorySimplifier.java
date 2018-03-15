@@ -1,4 +1,4 @@
-package algorithm;
+package onethreeseven.simplification.algorithm;
 
 import onethreeseven.datastructures.model.CompositePt;
 import onethreeseven.datastructures.model.SpatioCompositeTrajectory;

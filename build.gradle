@@ -1,5 +1,7 @@
 group 'onethreeseven'
 version '0.0.1-SNAPSHOT'
+ext.moduleName = 'onethreeseven.simplification'
+
 
 allprojects {
     repositories {
@@ -9,30 +11,65 @@ allprojects {
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
     apply plugin: 'java'
+    apply plugin: 'idea'
 }
 
-sourceCompatibility = 1.8
-
 repositories {
-    mavenLocal()
     mavenCentral()
-    maven{url 'https://dl.bintray.com/lukehb/137-common'} //common module hosted on bintray
-    maven{url 'https://dl.bintray.com/lukehb/137-geo'} //geography module hosted on bintray
-    maven{url 'https://dl.bintray.com/lukehb/137-datastructures'} //some data-structures we use
-    maven{url 'https://dl.bintray.com/lukehb/137-collections'} //some collection types
+    mavenLocal()
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile group: 'onethreeseven', name: 'geo', version: '0.0.3'
-    compile group: 'onethreeseven', name: 'common', version: '0.0.3-SNAPSHOT'
-    compile group: 'onethreeseven', name: 'datastructures', version: '0.0.3-SNAPSHOT'
-    compile group: 'onethreeseven', name: 'collections', version: '0.0.1'
+    compile group: 'onethreeseven', name: 'trajsuitePlugin', version: '0.0.1-SNAPSHOT'
+    compile group: 'onethreeseven', name: 'geo', version: '0.0.4-SNAPSHOT'
+    compile group: 'onethreeseven', name: 'common', version: '0.0.5-SNAPSHOT'
+    compile group: 'onethreeseven', name: 'datastructures', version: '0.0.4-SNAPSHOT'
+    compile group: 'onethreeseven', name: 'collections', version: '0.0.2'
+}
+
+compileJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+        ]
+        classpath = files()
+    }
+}
+
+compileTestJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'junit',
+                '--add-reads', "$moduleName=junit",
+                '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
+        ]
+        classpath = files()
+    }
+}
+
+test {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        jvmArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'ALL-MODULE-PATH',
+                '--add-reads', "$moduleName=junit",
+                '--patch-module', "$moduleName=" + files(sourceSets.test.java.outputDir).asPath,
+        ]
+        classpath = files()
+    }
 }
 
 jar {
+    inputs.property("moduleName", moduleName)
     manifest {
-        attributes("Implementation-Title": project.name,
+        attributes(
+                'Automatic-Module-Name': moduleName,
+                "Implementation-Title": project.name,
                 "Implementation-Version": version,
                 'Built-By': System.getProperty('user.name'),
                 'Built-Date': new Date(),
@@ -47,6 +84,10 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
+javadoc{
+    options.addStringOption('-module-path', classpath.asPath)
+}
+
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = "javadoc"
     from 'build/docs/javadoc'
@@ -54,8 +95,16 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 artifacts {
     archives jar
-    archives javadocJar
     archives sourcesJar
+    archives javadocJar
+}
+
+idea {
+    module {
+        inheritOutputDirs = true
+        downloadJavadoc = true
+        downloadSources = true
+    }
 }
 
 publishing {

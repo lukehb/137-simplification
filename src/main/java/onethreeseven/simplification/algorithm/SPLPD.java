@@ -1,4 +1,4 @@
-package algorithm;
+package onethreeseven.simplification.algorithm;
 
 import onethreeseven.collections.Range;
 import onethreeseven.common.util.Maths;
@@ -10,10 +10,10 @@ import onethreeseven.datastructures.model.SpatioCompositeTrajectory;
  * Entry significance is computed using perpendicular distance.
  * This method is equivalent to
  * <a href="https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm">this approach</a>
- * but with a simplification percentage control as opposed to some distance threshold.
+ * but with a simplification percentage control as opposed to a distance threshold.
  * @author Luke Bermingham
  */
-public class SPLDP extends AbstractSPLTrajectorySimplifier {
+public class SPLPD extends AbstractSPLTrajectorySimplifier {
 
     @Override
     protected <T extends CompositePt> EntrySignificance findMostSignificantEntry(SpatioCompositeTrajectory<T> trajectory,
@@ -38,4 +38,13 @@ public class SPLDP extends AbstractSPLTrajectorySimplifier {
         return new EntrySignificance(bestIdx, (float) bestScore);
     }
 
+    @Override
+    public String readableName() {
+        return "Thorough perpendicular distance";
+    }
+
+    @Override
+    public String simpleName() {
+        return "splpd";
+    }
 }

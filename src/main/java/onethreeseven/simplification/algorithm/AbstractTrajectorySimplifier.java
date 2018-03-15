@@ -1,8 +1,7 @@
-package algorithm;
+package onethreeseven.simplification.algorithm;
 
 import onethreeseven.datastructures.model.CompositePt;
 import onethreeseven.datastructures.model.SpatioCompositeTrajectory;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +16,7 @@ public abstract class AbstractTrajectorySimplifier {
             (o1, o2) -> Float.compare(o1.significance, o2.significance);
 
     private static final Comparator<EntrySignificance> indexOrdering =
-            (o1, o2) -> Integer.compare(o1.entryIdx, o2.entryIdx);
+            Comparator.comparingInt(o -> o.entryIdx);
 
     /**
      * Simplifies this trajectory by removing a certain percentage of entries that are considered less "significant"
@@ -38,12 +37,12 @@ public abstract class AbstractTrajectorySimplifier {
         //give each entry a significance score
         List<EntrySignificance> scores = scoreEntries(trajectory);
         //rank them by sorting them in order of least significant to most
-        Collections.sort(scores, leastToMostSignificant);
+        scores.sort(leastToMostSignificant);
         //truncate the appropriate percentage of score from the front of the list
         int nToRemove = Math.round(trajectory.size() * simplificationStrength);
         scores = scores.subList(nToRemove, scores.size());
         //sort the score by the index so we can make the new trajectory in the correct index ordering
-        Collections.sort(scores, indexOrdering);
+        scores.sort(indexOrdering);
 
         SpatioCompositeTrajectory<T> outputTraj = new SpatioCompositeTrajectory<T>(trajectory.isInCartesianMode(), trajectory.getProjection());
 
@@ -73,6 +72,14 @@ public abstract class AbstractTrajectorySimplifier {
      * @return A list of scored entries.
      */
     protected abstract <T extends CompositePt> List<EntrySignificance> scoreEntries(SpatioCompositeTrajectory<T> trajectory);
+
+    public abstract String readableName();
+    public abstract String simpleName();
+
+    @Override
+    public String toString(){
+        return readableName();
+    }
 
     class EntrySignificance{
         final int entryIdx;

@@ -1,4 +1,4 @@
-package algorithm;
+package onethreeseven.simplification.algorithm;
 
 import onethreeseven.common.util.Maths;
 import onethreeseven.datastructures.model.CompositePt;
@@ -17,5 +17,15 @@ public class DRTA extends AbstractDRTrajectorySimplifier{
         double[] b = trajectory.getCoords(index);
         double[] c = trajectory.getCoords(index+1);
         return (float) Maths.triArea(a[0], a[1], b[0], b[1], c[0], c[1]);
+    }
+
+    @Override
+    public String readableName() {
+        return "Fast triangular area";
+    }
+
+    @Override
+    public String simpleName() {
+        return "drta";
     }
 }

@@ -1,4 +1,4 @@
-package algorithm;
+package onethreeseven.simplification.algorithm;
 
 import onethreeseven.common.util.Maths;
 import onethreeseven.datastructures.model.CompositePt;
@@ -22,6 +22,16 @@ public class STDRSED extends AbstractDRTrajectorySimplifier {
             throw new IllegalArgumentException("Trajectory must be of type STTrajectory to use this simplifier.");
         }
         return super.simplify(trajectory, simplificationStrength);
+    }
+
+    @Override
+    public String readableName() {
+        return "Fast synchronised euclidean distance";
+    }
+
+    @Override
+    public String simpleName() {
+        return "stdrsed";
     }
 
     @Override

@@ -1,4 +1,4 @@
-package algorithm;
+package onethreeseven.simplification.algorithm;
 
 import onethreeseven.common.util.Maths;
 import onethreeseven.datastructures.model.CompositePt;
@@ -10,7 +10,7 @@ import onethreeseven.datastructures.model.SpatioCompositeTrajectory;
  * and the line formed by connecting its neighbours.
  * @author Luke Bermingham
  */
-public class DRDP extends AbstractDRTrajectorySimplifier {
+public class DRPD extends AbstractDRTrajectorySimplifier {
 
     @Override
     protected <T extends CompositePt> float scoreSingleEntry(SpatioCompositeTrajectory<T> trajectory,
@@ -22,4 +22,13 @@ public class DRDP extends AbstractDRTrajectorySimplifier {
         return (float) Maths.perpendicularDistance(a,c, b);
     }
 
+    @Override
+    public String readableName() {
+        return "Fast perpendicular distance";
+    }
+
+    @Override
+    public String simpleName() {
+        return "drpd";
+    }
 }

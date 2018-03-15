@@ -1,4 +1,4 @@
-package algorithm;
+package onethreeseven.simplification.algorithm;
 
 import onethreeseven.collections.Range;
 import onethreeseven.datastructures.model.CompositePt;

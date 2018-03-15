@@ -1,12 +1,10 @@
-package algorithm;
+package onethreeseven.simplification.algorithm;
 
 import onethreeseven.datastructures.model.STTrajectory;
 import onethreeseven.datastructures.model.SpatioCompositeTrajectory;
 import onethreeseven.datastructures.util.DataGeneratorUtil;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Test for all the simplification algorithms.
@@ -31,7 +29,7 @@ public class AbstractTrajectorySimplifierTest {
     @Test
     public void simplifyDRDP() throws Exception {
 
-        DRDP algo = new DRDP();
+        DRPD algo = new DRPD();
         SpatioCompositeTrajectory simplifiedTraj = algo.simplify(traj, simplificationStrength);
         Assert.assertEquals(nExpectedEntries, simplifiedTraj.size());
 
@@ -49,7 +47,7 @@ public class AbstractTrajectorySimplifierTest {
     @Test
     public void simplifySPLDP() throws Exception {
 
-        SPLDP algo = new SPLDP();
+        SPLPD algo = new SPLPD();
         SpatioCompositeTrajectory simplifiedTraj = algo.simplify(traj, simplificationStrength);
         Assert.assertEquals(nExpectedEntries, simplifiedTraj.size());
 
