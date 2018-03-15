@@ -19,6 +19,9 @@ module onethreeseven.simplification {
     exports onethreeseven.simplification to javafx.graphics;
     exports onethreeseven.simplification.algorithm;
     exports onethreeseven.simplification.view;
+    opens onethreeseven.simplification.view;
+    exports onethreeseven.simplification.view.controller to javafx.fxml;
+    opens onethreeseven.simplification.view.controller to javafx.fxml;
 
     //commands to work
     exports onethreeseven.simplification.command;

@@ -148,10 +148,13 @@ public class SimplifyTrajectories extends CLICommand {
     @Override
     protected boolean runImpl() {
 
+        if(!isRunning.get()){
+            return false;
+        }
 
         final float simplificationFactor = simplificationPercent / 100.0f;
         final AddEntitiesTransaction transaction = new AddEntitiesTransaction();
-        final int nTrajs = trajs.size();;
+        final int nTrajs = trajs.size();
         final java.awt.Color[] colors = ColorUtil.generateNColors(nTrajs);
 
         int i = 0;
