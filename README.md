@@ -1,2 +1,2 @@
 # 137-simplification
-Spatial and spatio-temporal trajectory simplification algorithms.
+A module for [TrajSuite](https://github.com/lukehb/TrajSuite). Spatial and spatio-temporal trajectory simplification algorithms.
